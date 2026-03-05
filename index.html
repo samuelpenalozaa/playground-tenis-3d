@@ -1,0 +1,133 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Velocity Run - Donde el diseno domina la distancia</title>
+    <meta
+      name="description"
+      content="Tenis para correr de alto rendimiento. Ingenieria ligera, traccion precisa y diseno agresivo para dominar cada kilometro."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="scene-wrap" aria-hidden="true">
+        <canvas id="scene"></canvas>
+        <img
+          id="hero-bg-photo"
+          class="hero-bg-photo"
+          src="./assets/hero-background.png"
+          alt=""
+          aria-hidden="true"
+        />
+        <div id="shoe-sequence" aria-hidden="true">
+          <img class="shoe-angle is-active" src="./assets/solid/1.png" alt="" />
+        </div>
+        <div class="vignette"></div>
+      </div>
+
+      <header class="topbar glass">
+        <nav class="menu">
+          <a href="#hero" class="pill">Explorar</a>
+          <a href="#tech" class="pill">Tecnologia</a>
+          <a href="#models" class="pill">Modelos</a>
+        </nav>
+        <a href="#cta" class="pill cta">
+          <span class="dot"></span>
+          Pre-ordenar
+        </a>
+      </header>
+
+      <div class="scroll-hint">
+        <span>SEGUE BAJANDO</span>
+      </div>
+
+      <main>
+        <section id="hero" class="panel panel-hero">
+          <p class="eyebrow">HECHOS PARA QUIENES CORREN EN SERIO</p>
+          <h1>Donde el Diseno<br />Domina la Distancia.</h1>
+        </section>
+
+        <section id="showcase-video" class="panel panel-video">
+          <div class="video-stack">
+            <div class="video-card glass">
+              <video
+                id="trail-run-video"
+                class="trail-video"
+                src="./assets/videos/trail-loop.mp4"
+                muted
+                playsinline
+                autoplay
+                preload="auto"
+                data-loop-start="2"
+                data-loop-end="6"
+              ></video>
+            </div>
+            <div class="stat-card glass">
+              <p class="stat-value">228 g</p>
+              <p class="stat-label">PESO APROXIMADO</p>
+            </div>
+          </div>
+          <div class="video-copy">
+            <p class="eyebrow">TRAIL TESTED</p>
+            <h2>Transicion real<br />en terreno real</h2>
+          </div>
+        </section>
+
+        <section id="tech" class="panel panel-left">
+          <p class="eyebrow">DISENO MODERNO Y FUNCIONAL</p>
+          <p class="lead">
+            Velocity Run combina espuma reactiva, upper transpirable y una geometria agresiva para
+            mantener velocidad, control y estabilidad en cualquier ritmo.
+          </p>
+        </section>
+
+        <section class="panel panel-split" id="models">
+          <div>
+            <p class="eyebrow">GEOMETRIA AGRESIVA</p>
+            <h2>Explosivos<br />en cada zancada</h2>
+          </div>
+          <div class="spec-card glass">
+            <p>Drop: 8 mm</p>
+            <p>Peso: 228 g</p>
+            <p>Espuma: NitroCore X</p>
+            <p>Suela: GripTerrain 360</p>
+          </div>
+        </section>
+
+        <section class="panel panel-split reverse">
+          <div>
+            <p class="eyebrow">RENDIMIENTO ADAPTABLE</p>
+            <h2>Dominio total<br />en asfalto y pista</h2>
+          </div>
+          <div class="spec-card glass">
+            <p>Transicion suave talon-punta</p>
+            <p>Retorno de energia alto</p>
+            <p>Soporte lateral reforzado</p>
+            <p>Ventilacion de competencia</p>
+          </div>
+        </section>
+
+        <section id="cta" class="panel panel-cta">
+          <h3>
+            Listo para correr?<br />Vive la diferencia
+            <span>Velocity</span>
+          </h3>
+          <div class="cta-row">
+            <a href="#" class="pill">Suscribirme</a>
+            <a href="#" class="pill cta strong">
+              <span class="dot"></span>
+              Pre-ordenar ahora
+            </a>
+          </div>
+          <p class="price-label">PRECIO LANZAMIENTO</p>
+          <p class="price">$189 USD</p>
+        </section>
+      </main>
+    </div>
+
+    <script src="./vendor/three.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
