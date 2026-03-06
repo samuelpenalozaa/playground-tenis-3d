@@ -543,13 +543,22 @@
       }
     });
 
+    var isPhonePortrait = isPhoneViewport && window.innerHeight > window.innerWidth;
     var tx = isPhoneViewport
-      ? pointerX * 14 + Math.sin(scroll * Math.PI * 2) * 12
+      ? (isPhonePortrait
+        ? -14 + pointerX * 6 + Math.sin(scroll * Math.PI * 2) * 4
+        : -6 + pointerX * 10 + Math.sin(scroll * Math.PI * 2) * 8)
       : pointerX * 34 + Math.sin(scroll * Math.PI * 2) * 26;
-    var baseLift = isPhoneViewport ? -96 : window.innerWidth <= 992 ? -82 : -118;
-    var ty = baseLift + pointerY * (isPhoneViewport ? 8 : 14) - scroll * (isPhoneViewport ? 10 : 16) + Math.sin(t * 1.4) * (isPhoneViewport ? 3 : 5);
-    var rot = isPhoneViewport ? -1.2 + scroll * 4 + pointerX * 1.2 : -2.5 + scroll * 7 + pointerX * 2.5;
-    var scale = (isPhoneViewport ? 0.93 : 1) + scroll * (isPhoneViewport ? 0.05 : 0.07);
+    var baseLift = isPhonePortrait ? -138 : isPhoneViewport ? -104 : window.innerWidth <= 992 ? -82 : -118;
+    var ty = baseLift + pointerY * (isPhonePortrait ? 5 : isPhoneViewport ? 7 : 14) - scroll * (isPhonePortrait ? 7 : isPhoneViewport ? 10 : 16) + Math.sin(t * 1.4) * (isPhonePortrait ? 2 : isPhoneViewport ? 3 : 5);
+    var rot = isPhonePortrait
+      ? -0.5 + scroll * 2.4 + pointerX * 0.8
+      : isPhoneViewport
+        ? -1.2 + scroll * 4 + pointerX * 1.2
+        : -2.5 + scroll * 7 + pointerX * 2.5;
+    var scale = isPhonePortrait
+      ? 0.84 + scroll * 0.03
+      : (isPhoneViewport ? 0.9 : 1) + scroll * (isPhoneViewport ? 0.045 : 0.07);
     sequenceRoot.style.transform =
       'translate3d(' +
       tx.toFixed(2) +

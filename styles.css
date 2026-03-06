@@ -522,9 +522,9 @@ body.js-ready .reveal.is-in {
   }
 
   #shoe-sequence {
-    width: 138vw;
-    right: -60vw;
-    top: 13vh;
+    width: 122vw;
+    right: -30vw;
+    top: 8vh;
     opacity: 1;
   }
 
@@ -569,8 +569,16 @@ body.js-ready .reveal.is-in {
   }
 
   #shoe-sequence {
-    width: 150vw;
-    right: -73vw;
-    top: 14vh;
+    width: 126vw;
+    right: -30vw;
+    top: 8vh;
+  }
+}
+
+@media (max-width: 540px) and (orientation: portrait) {
+  #shoe-sequence {
+    width: 118vw;
+    right: -24vw;
+    top: 4vh;
   }
 }
