@@ -94,7 +94,11 @@
           return;
         }
 
-        var duration = Math.max(720, Math.min(1400, Math.abs(distance) * 0.7));
+        var mobileNav = window.innerWidth <= 768;
+        var durationScale = mobileNav ? 0.52 : 0.7;
+        var durationMin = mobileNav ? 520 : 720;
+        var durationMax = mobileNav ? 1100 : 1400;
+        var duration = Math.max(durationMin, Math.min(durationMax, Math.abs(distance) * durationScale));
         var startTime = performance.now();
 
         function step(now) {
@@ -361,11 +365,23 @@
   scene.background = bgColor;
   scene.fog = new THREE.Fog('#a6a6a6', 5, 50);
 
+  var isMobileViewport = window.innerWidth <= 768;
+  var isPhoneViewport = window.innerWidth <= 540;
+  function refreshViewportFlags() {
+    isMobileViewport = window.innerWidth <= 768;
+    isPhoneViewport = window.innerWidth <= 540;
+  }
+  refreshViewportFlags();
+
   var camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 1.4, 8);
 
   var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  function getRenderPixelRatio() {
+    var cap = isPhoneViewport ? 1.15 : isMobileViewport ? 1.35 : 2;
+    return Math.min(window.devicePixelRatio || 1, cap);
+  }
+  renderer.setPixelRatio(getRenderPixelRatio());
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   if ('outputColorSpace' in renderer && THREE.SRGBColorSpace) {
@@ -411,7 +427,8 @@
     ? Math.min(8, renderer.capabilities.getMaxAnisotropy())
     : 1;
 
-  for (var i = 0; i < 16; i += 1) {
+  var rockCount = isMobileViewport ? 10 : 16;
+  for (var i = 0; i < rockCount; i += 1) {
     var rock = new THREE.Sprite(
       new THREE.SpriteMaterial({
         transparent: true,
@@ -421,18 +438,18 @@
         depthTest: true
       })
     );
-    var baseScale = 0.28 + Math.random() * 0.22;
+    var baseScale = (isMobileViewport ? 0.22 : 0.28) + Math.random() * (isMobileViewport ? 0.16 : 0.22);
     rock.userData.baseScale = baseScale;
-    var a = (i / 16) * Math.PI * 2;
-    var r = 2.3 + Math.random() * 1.2;
-    var y = -0.95 + Math.random() * 0.5;
+    var a = (i / rockCount) * Math.PI * 2;
+    var r = (isMobileViewport ? 2 : 2.3) + Math.random() * (isMobileViewport ? 0.9 : 1.2);
+    var y = -0.98 + Math.random() * 0.45;
     rock.position.set(Math.cos(a) * r, y, Math.sin(a) * r - 0.6);
     rock.scale.set(baseScale * 0.8, baseScale, 1);
     rock.userData.baseY = y;
     rock.userData.floatPhase = Math.random() * Math.PI * 2;
     rock.userData.floatSpeed = 0.75 + Math.random() * 0.65;
-    rock.userData.floatAmp = 0.015 + Math.random() * 0.045;
-    rock.userData.spin = (Math.random() - 0.5) * 0.012;
+    rock.userData.floatAmp = (isMobileViewport ? 0.01 : 0.015) + Math.random() * (isMobileViewport ? 0.028 : 0.045);
+    rock.userData.spin = (Math.random() - 0.5) * (isMobileViewport ? 0.006 : 0.012);
 
     var rockTexturePath = rockTextureSources[i % rockTextureSources.length];
     rockTextureLoader.load(
@@ -468,17 +485,18 @@
   });
 
   function cameraByDevice() {
-    var mobile = window.innerWidth < 768;
-    camera.fov = mobile ? 70 : 30;
-    camera.position.set(0, 1.4, 8);
+    refreshViewportFlags();
+    camera.fov = isMobileViewport ? 62 : 30;
+    camera.position.set(0, isMobileViewport ? 1.34 : 1.4, 8);
     camera.updateProjectionMatrix();
   }
 
   function onResize() {
+    refreshViewportFlags();
     camera.aspect = window.innerWidth / window.innerHeight;
     cameraByDevice();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(getRenderPixelRatio());
   }
 
   window.addEventListener('resize', onResize);
@@ -525,11 +543,13 @@
       }
     });
 
-    var tx = pointerX * 34 + Math.sin(scroll * Math.PI * 2) * 26;
-    var baseLift = window.innerWidth <= 540 ? -34 : window.innerWidth <= 992 ? -82 : -118;
-    var ty = baseLift + pointerY * 14 - scroll * 16 + Math.sin(t * 1.4) * 5;
-    var rot = -2.5 + scroll * 7 + pointerX * 2.5;
-    var scale = 1 + scroll * 0.07;
+    var tx = isPhoneViewport
+      ? pointerX * 14 + Math.sin(scroll * Math.PI * 2) * 12
+      : pointerX * 34 + Math.sin(scroll * Math.PI * 2) * 26;
+    var baseLift = isPhoneViewport ? -96 : window.innerWidth <= 992 ? -82 : -118;
+    var ty = baseLift + pointerY * (isPhoneViewport ? 8 : 14) - scroll * (isPhoneViewport ? 10 : 16) + Math.sin(t * 1.4) * (isPhoneViewport ? 3 : 5);
+    var rot = isPhoneViewport ? -1.2 + scroll * 4 + pointerX * 1.2 : -2.5 + scroll * 7 + pointerX * 2.5;
+    var scale = (isPhoneViewport ? 0.93 : 1) + scroll * (isPhoneViewport ? 0.05 : 0.07);
     sequenceRoot.style.transform =
       'translate3d(' +
       tx.toFixed(2) +
@@ -560,10 +580,10 @@
     scene.fog.color.copy(bgColor);
 
     particles.visible = rocksReveal > 0.004;
-    particles.rotation.y = t * 0.08 + scroll * 0.55;
+    particles.rotation.y = t * (isMobileViewport ? 0.045 : 0.08) + scroll * (isMobileViewport ? 0.34 : 0.55);
     particles.children.forEach(function (rock) {
       if (rock.material) {
-        rock.material.opacity = rocksReveal;
+        rock.material.opacity = rocksReveal * (isMobileViewport ? 0.76 : 1);
         rock.material.rotation += rock.userData.spin;
       }
       rock.position.y =

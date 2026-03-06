@@ -25,6 +25,8 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: Inter, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 #app {
@@ -397,7 +399,7 @@ body.js-ready .reveal.is-in {
   .topbar {
     width: calc(100% - 16px);
     top: 8px;
-    padding: 8px;
+    padding: 7px 8px;
   }
 
   .menu {
@@ -416,9 +418,9 @@ body.js-ready .reveal.is-in {
   }
 
   #shoe-sequence {
-    width: min(110vw, 920px);
-    right: -34vw;
-    top: 10vh;
+    width: min(104vw, 860px);
+    right: -28vw;
+    top: 12vh;
     opacity: 1;
   }
 
@@ -450,48 +452,125 @@ body.js-ready .reveal.is-in {
 }
 
 @media (max-width: 540px) {
+  .topbar {
+    justify-content: space-between;
+    border-radius: 14px;
+    padding: 7px;
+    background: rgba(10, 12, 14, 0.7);
+  }
+
   .menu {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    padding-right: 8px;
+    scrollbar-width: none;
+  }
+
+  .menu::-webkit-scrollbar {
     display: none;
   }
 
-  .topbar {
-    justify-content: flex-end;
-    border-radius: 12px;
-    background: rgba(14, 14, 14, 0.72);
+  .menu .pill {
+    min-width: 96px;
+    min-height: 36px;
+    padding: 7px 14px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .topbar > .cta {
+    min-width: 126px;
+    min-height: 36px;
+    padding: 7px 12px;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .topbar > .cta .dot {
+    width: 18px;
+    height: 18px;
   }
 
   .panel {
-    padding: 90px 18px 40px;
+    padding: 88px 14px 34px;
+  }
+
+  section[id] {
+    scroll-margin-top: 84px;
   }
 
   .video-card,
   .stat-card {
-    width: min(82vw, 320px);
+    width: min(88vw, 340px);
+  }
+
+  .panel-video {
+    align-content: start;
+    padding-top: 104px;
+    gap: 18px;
+  }
+
+  .video-copy {
+    max-width: 96vw;
+  }
+
+  .video-copy h2 {
+    font-size: clamp(1.85rem, 10.5vw, 2.7rem);
   }
 
   #shoe-sequence {
-    width: 165vw;
-    right: -86vw;
-    top: 18vh;
+    width: 138vw;
+    right: -60vw;
+    top: 13vh;
     opacity: 1;
   }
 
   .hero-bg-photo {
-    object-position: 56% 50%;
+    object-position: 57% 47%;
     opacity: 0.9;
   }
 
   .panel-hero {
     align-content: end;
-    padding-bottom: 20vh;
+    padding-bottom: 14vh;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 12vw, 2.9rem);
+    max-width: 94vw;
+    line-height: 0.92;
+    text-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
   }
 
   .eyebrow {
-    font-size: 13px;
+    font-size: 12px;
+    margin-bottom: 12px;
   }
 
   .scroll-hint {
-    bottom: 16px;
-    font-size: 9px;
+    bottom: 12px;
+    font-size: 8px;
+    letter-spacing: 0.09em;
+  }
+}
+
+@media (max-width: 380px) {
+  .menu .pill {
+    min-width: 90px;
+    padding: 7px 12px;
+  }
+
+  .topbar > .cta {
+    min-width: 116px;
+    padding: 7px 10px;
+  }
+
+  #shoe-sequence {
+    width: 150vw;
+    right: -73vw;
+    top: 14vh;
   }
 }
